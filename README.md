@@ -75,7 +75,26 @@ python get_acfg_features.py -j D:/Download/binary/IDBs/Dataset/zlib/a_selected_D
 
 
 
-## Understanding
+## Detailed description (studying)
 
-DOING...
+### flowchart
+
+This will generate some basic information of every function for each .idb file.
+
+```python
+info = [idb_path, # path of .idb file
+		fva, # function virtual address
+		func_name, # function name 
+        func.start_ea, # start address
+        func.end_ea, # end address
+        len(bb_list), # length of basic block in this function, should be more than 5
+        [bb_list], # list of basic block, each given an address
+        hashopcodes(fva)] # extract opcodes of every bb via idaapi.ua_mnem, thus generating the sha256 hash of this function
+```
+
+Therefore, each idb will get several function information, prepared for the downstream analysis.
+
+### disasm
+
+disassemble each function and extract CFG to JSON file.
 
