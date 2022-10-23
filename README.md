@@ -22,7 +22,7 @@ Example: generate the IDBs for the Dataset
 python get_idb.py --db
 ```
 
-## The IDA Pro Plugins
+## The usage of IDA Pro Plugins
 
 ### IDA FlowChart
 It extracts basic information from each function with at least five basic blocks.
@@ -73,5 +73,9 @@ cd IDA_acfg_features
 python get_acfg_features.py -j D:/Download/binary/IDBs/Dataset/zlib/a_selected_Dataset.json -o acfg_features_Dataset
 ```
 
----
+
+
+## Understanding
+
+DOING...
 
