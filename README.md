@@ -75,7 +75,7 @@ python get_acfg_features.py -j D:/Download/binary/IDBs/Dataset/zlib/a_selected_D
 
 
 
-## Detailed description (studying)
+## Detailed description
 
 ### flowchart
 
