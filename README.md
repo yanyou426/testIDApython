@@ -73,6 +73,20 @@ cd IDA_acfg_features
 python get_acfg_features.py -j D:/Download/binary/IDBs/Dataset/zlib/a_selected_Dataset.json -o acfg_features_Dataset
 ```
 
+---
+
+### IDA networkX graph construct
+
+- **Input**: a JSON file with the selected functions (`-j`) and the name of a folder in output (`-o`).
+- **Output**: one JSON file (`_graph.pkl`) per IDB.
+
+Example: run the plugin over the functions selected for the zlib in Dataset
+
+```bash
+cd IDA_graph
+python get_graph.py -j D:/Download/binary/IDBs/Dataset/zlib/a_selected_Dataset.json -o Dataset-graph
+```
+
 
 
 ## Detailed description
@@ -141,5 +155,27 @@ function_features = {
         'n_instructions': f_sum(bbs_dict, 'n_instructions') # no. of mnens
     }
 
+```
+
+### cfg
+
+It will generate the graph structor for each idb, where key is the function name in each idb file.
+
+```pytho
+tmp_func_struct = func_struct(
+                func_name=func_name, # function name 
+                opt_level=None, # optimization level
+                version=None, 
+                compiler=None, # compiler: gcc/clang
+                bb_size=len(cfg), # number of nodes in graph
+                byte_size=funcbytes, # sum of length of each basic blocks
+                CFG=cfg, # the graph structor
+                ARCH=procname, # x86/x64/ARM/MIPS
+                LIB_NAME=None, # based on the library compiled
+                OBF=False,
+                bin_type=bitness, # 64/32
+                file_path=idb_path # the path of idb file
+            )
+res[func_name] = tmp_func_struct
 ```
 
