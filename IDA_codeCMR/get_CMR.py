@@ -8,17 +8,12 @@ from os.path import abspath
 from os.path import dirname
 from os.path import isfile
 from os.path import join
-import os
-import pickle
-import networkx as nx
 
 
-
-IDA_PATH = getenv("IDA_PATH", "D:/idapro-7.7/ida64")
-IDA32_PATH = getenv("IDA32_PATH", "D:/idapro-7.7/ida")
-IDA_PLUGIN = join(dirname(abspath(__file__)), 'IDA_graph.py')
+IDA_PATH = getenv("IDA_PATH", "D:\idapro-7.7\ida64")
+IDA_PLUGIN = join(dirname(abspath(__file__)), 'IDA_CMR.py')
 REPO_PATH = dirname(dirname(dirname(abspath(__file__))))
-LOG_PATH = "IDA_graph_log.txt"
+LOG_PATH = "CMR_log.txt"
 
 
 @click.command()
@@ -27,7 +22,6 @@ LOG_PATH = "IDA_graph_log.txt"
 @click.option('-o', '--output-dir', required=True,
               help='Output directory.')
 def main(json_path, output_dir):
-
     try:
         print("[D] JSON path: {}".format(json_path))
         print("[D] Output directory: {}".format(output_dir))
@@ -52,16 +46,12 @@ def main(json_path, output_dir):
                 print("[!] Error: {} does not exist".format(idb_path))
                 continue
 
-            # Call the correct version of IDA based on the 32/64 bit version
-            ida_path_t = IDA_PATH
-            # if idb_path.endswith(".idb"):
-            #     ida_path_t = IDA32_PATH
 
-            cmd = [ida_path_t,
+            cmd = [IDA_PATH,
                    '-A',
                    '-L{}'.format(LOG_PATH),
                    '-S{}'.format(IDA_PLUGIN),
-                   '-Ograph:{};{};{}'.format(
+                   '-OCMR:{};{};{}'.format(
                        json_path,
                        idb_rel_path,
                        output_dir),
@@ -90,19 +80,8 @@ def main(json_path, output_dir):
         print("# IDBs error: {}".format(error_cnt))
 
     except Exception as e:
-        print("[!] Exception in get_graph\n{}".format(e))
+        print("[!] Exception in get_CMR\n{}".format(e))
 
 
 if __name__ == '__main__':
     main()
-    # output_path = r"D:\Download\binary\IDBs\Dataset\zlib\Dataset-graph\arm64-clang-O0_minigzipsh_graph.pkl"
-    # with open(output_path, 'rb') as f_in:
-    #     data = pickle.load(f_in)
-    # for func_name in data.keys():
-    #     for node in data[func_name].nodes:
-    #         print(data[func_name].nodes[node])
-    #     break
-
-
-
-

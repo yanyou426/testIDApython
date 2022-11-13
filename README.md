@@ -75,16 +75,16 @@ python get_acfg_features.py -j D:/Download/binary/IDBs/Dataset/zlib/a_selected_D
 
 ---
 
-### IDA networkX graph construct
+### IDA  plugin for codeCMR
 
 - **Input**: a JSON file with the selected functions (`-j`) and the name of a folder in output (`-o`).
-- **Output**: one JSON file (`_graph.pkl`) per IDB.
+- **Output**: one JSON file per IDB.
 
-Example: run the plugin over the functions selected for the zlib in Dataset
+Example: run the plugin over the functions selected for the training set in Dataset
 
 ```bash
-cd IDA_graph
-python get_graph.py -j D:/Download/binary/IDBs/Dataset/zlib/a_selected_Dataset.json -o Dataset-graph
+cd IDA_codeCMR
+python get_CMR.py -j D:/Download/binary/IDBs/Dataset/test.json -o D:/Download/binary/IDBs/Dataset
 ```
 
 
@@ -157,25 +157,19 @@ function_features = {
 
 ```
 
-### cfg
+### graph for codeCMR
 
-It will generate the graph structor for each idb, where key is the function name in each idb file.
+It will generate a networkx graph for each idb , where key is the function name in each idb file.
 
-```pytho
-tmp_func_struct = func_struct(
-                func_name=func_name, # function name 
-                opt_level=None, # optimization level
-                version=None, 
-                compiler=None, # compiler: gcc/clang
-                bb_size=len(cfg), # number of nodes in graph
-                byte_size=funcbytes, # sum of length of each basic blocks
-                CFG=cfg, # the graph structor
-                ARCH=procname, # x86/x64/ARM/MIPS
-                LIB_NAME=None, # based on the library compiled
-                OBF=False,
-                bin_type=bitness, # 64/32
-                file_path=idb_path # the path of idb file
-            )
-res[func_name] = tmp_func_struct
+```python
+G, cfunc = parse_func(pfn, strlist)
+func_name = idaapi.get_func_name(fva)
+G.graph['arch'] = arch
+G.graph['name'] = func_name
+G.graph['file'] = idb_path
+G.graph['pseudocode'] = str(cfunc)
+features_dict[func_name] = G
 ```
+
+The graph info got by `parse_func` includes：
 
