@@ -173,3 +173,14 @@ features_dict[func_name] = G
 
 The graph info got by `parse_func` includes：
 
+`c_str`: binary code string features
+
+`c_int`: binary code interger features
+
+`arg_num`:  number of args
+
+`G.nodes`: binary code CFG features
+
+`G.nodes.data('feat')`: several lists for every CFG node, obtained by binaryAI APIs.
+
+In CodeCMR, we mainly use c_str, c_int, G.nodes for binary level analysis.
